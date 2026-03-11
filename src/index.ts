@@ -1,14 +1,15 @@
-import axios from "axios";
+import { getMarkets } from "./api/polymarket.js";
 
 async function main() {
-  const response = await axios.get(
-    "https://gamma-api.polymarket.com/markets"
-  );
+  const markets = await getMarkets();
 
-  const markets = response.data;
-
-  console.log("Markets:", markets.length);
-  console.log(markets[0]);
+  for (const market of markets.slice(0, 5)) {
+    console.log("Question:", market.question);
+    console.log("Volume:", market.volume);
+    console.log("----");
+  }
 }
 
-main();
+main().catch((error) => {
+  console.error("Error running app:", error);
+});
